@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "start": "node -r dotenv/config src/app.js",
+    "build": "babel src -d target"
+  },
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}
