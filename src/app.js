@@ -8,7 +8,12 @@ app.engine(
   "handlebars",
   exphbs({
     layoutsDir: path.join(__dirname, "views/layouts"),
-    partialsDir: path.join(__dirname, "views/partials")
+    partialsDir: path.join(__dirname, "views/partials"),
+    helpers: {
+      ifEquals: function(arg1, arg2, options) {
+        return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+      }
+    }
   })
 );
 app.set("views", path.join(__dirname, "views"));
@@ -17,7 +22,11 @@ app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.render("index", { layout: "main" });
+  res.render("index", { layout: "main", activePage: "index" });
+});
+
+app.get("/upload", (req, res) => {
+  res.render("upload", { layout: "main", activePage: "upload" });
 });
 
 const port = process.env.PORT || 3000;
