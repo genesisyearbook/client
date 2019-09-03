@@ -1,23 +1,44 @@
-const path = require('path');
-const express = require('express');
-const exphbs = require('express-handlebars');
+const path = require("path");
+const express = require("express");
+const exphbs = require("express-handlebars");
 
 const app = express();
 
-app.engine('handlebars', exphbs({
-    layoutsDir: path.join(__dirname, 'views/layouts')
-}));
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'handlebars');
+app.engine(
+  "handlebars",
+  exphbs({
+    layoutsDir: path.join(__dirname, "views/layouts"),
+    partialsDir: path.join(__dirname, "views/partials"),
+    helpers: {
+      ifEquals: function(arg1, arg2, options) {
+        return arg1 === arg2 ? options.fn(this) : options.inverse(this);
+      }
+    }
+  })
+);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "handlebars");
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/', (req, res) => {
-    res.render('index');
+app.get("/", (req, res) => {
+  res.render("index", { layout: "main", activePage: "index" });
+});
+
+app.get("/upload", (req, res) => {
+  res.render("upload", { layout: "main", activePage: "upload" });
+});
+
+app.get("/gallery", (req, res) => {
+  res.render("gallery", { layout: "main", activePage: "gallery" });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about", { layout: "main", activePage: "about" });
 });
 
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+  console.log(`Listening on port ${port}`);
 });

@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="#">
+        <img src="/images/white_genesis.png" width="75" height="50" class="d-inline-block align-top" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li id="navHome" class="nav-item {{#ifEquals activePage "index" }} active {{/ifEquals}}">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li id="navGallery" class="nav-item {{#ifEquals activePage "gallery" }} active {{/ifEquals}}">
+                <a class="nav-link" href="/gallery">Gallery</a>
+            </li>
+            <li id="navUpload" class="nav-item {{#ifEquals activePage "upload" }} active {{/ifEquals}}">
+                <a class="nav-link" href="/upload">Upload</a>
+            </li>
+            <li id="navAbout" class="nav-item {{#ifEquals activePage "about" }} active {{/ifEquals}}">
+                <a class="nav-link" href="/about">About Us</a>
+            </li>
+        </ul>
+    </div>
+</nav>
