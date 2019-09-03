@@ -29,6 +29,14 @@ app.get("/upload", (req, res) => {
   res.render("upload", { layout: "main", activePage: "upload" });
 });
 
+app.get("/gallery", (req, res) => {
+  res.render("gallery", { layout: "main", activePage: "gallery" });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about", { layout: "main", activePage: "about" });
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
