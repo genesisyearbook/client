@@ -4,6 +4,7 @@
     "build": "babel src -d target"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0"
