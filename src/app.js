@@ -1,3 +1,4 @@
+const axios = require('axios');
 const path = require("path");
 const express = require("express");
 const exphbs = require("express-handlebars");
@@ -10,8 +11,12 @@ app.engine(
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
     helpers: {
-      ifEquals: function(arg1, arg2, options) {
+      ifEquals: (arg1, arg2, options) => {
         return arg1 === arg2 ? options.fn(this) : options.inverse(this);
+      },
+      apiCall: (endpoint) => {
+        return axios.get(`${process.env.API}${endpoint}`)
+          .catch(e => console.error(e));
       }
     }
   })
@@ -37,7 +42,7 @@ app.get("/about", (req, res) => {
   res.render("about", { layout: "main", activePage: "about" });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.CLIENT_PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
