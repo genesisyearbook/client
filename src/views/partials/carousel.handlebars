@@ -1,14 +1,14 @@
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        {{#each (apiCall "/recent-photos")}}
+        <li data-target="#carouselExampleIndicators" data-slide-to={{@index}} class="{{#ifEquals @index 0}}active {{/ifEquals}}"></li>
+        {{/each}}
     </ol>
     <div class="carousel-inner">
         {{#each (apiCall "/recent-photos")}}
         <div class="carousel-item {{#ifEquals @index 0}} active {{/ifEquals}}">
 
-            <img class="d-block w-100" src={{this}} alt="Third slide">
+            <img class="d-block w-100" src={{this}} >
 
         </div>
         {{/each}}
