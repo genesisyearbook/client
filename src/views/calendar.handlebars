@@ -1,0 +1,82 @@
+{{!-- Calendar --}}
+<link href="https://unpkg.com/@fullcalendar/core/main.min.css" rel="stylesheet">
+<link href="https://unpkg.com/@fullcalendar/daygrid/main.min.css" rel="stylesheet">
+<link href="https://unpkg.com/@fullcalendar/timegrid/main.min.css" rel="stylesheet">
+<link href='https://unpkg.com/@fullcalendar/bootstrap/main.css' rel='stylesheet' />
+
+<script src="https://unpkg.com/@fullcalendar/core/main.min.js"></script>
+<script src="https://unpkg.com/@fullcalendar/daygrid/main.min.js"></script>
+<script src="https://unpkg.com/@fullcalendar/timegrid/main.min.js"></script>
+<script src="https://unpkg.com/@fullcalendar/interaction/main.min.js"></script>
+<script src="https://unpkg.com/@fullcalendar/bootstrap/main.min.js"></script>
+
+<script>
+    //TODO: Get and parse RSS XML feed from engage
+
+    var events = [
+        {   
+            title: 'This is a test',
+            start: '2019-09-20T16:00'
+        }
+    ]
+
+    var xmlReq = new XMLHttpRequest()
+    xmlReq.onload = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            var xmlDoc, x, i, txt
+            xmlDoc = xmlReq.responseXML
+            txt = ""
+            x = xmlDoc.getElementsByTagName("item")
+            for(let i = 0; i < x.length; i++) {
+                // TODO: Figure out a way to convert from dd-mm-yyyy to yyyy-mm-dd
+                title = x[i].getElementsByTagName("title")[0].innerHTML
+                startDate = new Date(x[i].getElementsByTagName("start")[0].innerHTML).toJSON()
+                endDate = new Date(x[i].getElementsByTagName("end")[0].innerHTML).toJSON()
+                url = x[i].getElementsByTagName("link")[0].innerHTML
+
+                
+                var newEvent = {
+                    title: title,
+                    start: startDate,
+                    end  : endDate,
+                    url  : url
+                }
+                events.push(newEvent)
+            }
+
+            var calendarDiv = document.getElementById("calendar")
+            var calendar = new FullCalendar.Calendar(calendarDiv, {
+                plugins: ['dayGrid', 'interaction', 'timeGrid', 'bootstrap'],
+                {{!-- themeSystem: 'bootstrap', --}}
+                defaultView: 'dayGridMonth',
+                defaultDate: '2019-09-07',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: events,
+                eventColor: '#326869',
+                eventTextColor: '#def1f1',
+                eventBackgroundColor: '#233239',
+                eventLimit: true,
+                height: 1000,
+                contentHeight: "auto"
+            })
+            calendar.render()
+        }  
+    }
+    xmlReq.open("GET", "https://sunypoly.campuslabs.com/engage/events.rss", true)
+    xmlReq.send();
+
+</script>
+
+<div class="row m-0">
+    <div class="card">
+        <div class="card-body bg-dark">
+            <div class="bg-white">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
